@@ -1,0 +1,8 @@
+syntax = "proto3";
+import "futa.model.proto";
+option java_multiple_files = true;
+option java_package = "com.futa.proto.service.core";
+
+service FutaPayService {
+  rpc exec(MessageReq) returns (MessageRpl) {}
+}
