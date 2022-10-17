@@ -1,5 +1,7 @@
 package com.phongdo.forwad.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.futa.proto.model.MessageReq;
 import com.futa.proto.model.MessageRpl;
 import com.futa.proto.service.core.FutaPayServiceGrpc;
@@ -7,7 +9,6 @@ import com.phongdo.dto.RequestDTO;
 import com.phongdo.dto.ResponseDTO;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.StatusRuntimeException;
 import org.springframework.stereotype.Service;
 
 import java.util.TreeMap;
@@ -15,17 +16,18 @@ import java.util.TreeMap;
 @Service
 public class GRPCClient {
     private final FutaPayServiceGrpc.FutaPayServiceBlockingStub blockingStub;
+    private static final String IP = "127.0.0.1";
+    private static final String port = "8082";
 
     public GRPCClient() {
         ManagedChannel channel = ManagedChannelBuilder
-                .forTarget("127.0.0.1:8083")
+                .forTarget(IP + ":" + port)
                 .usePlaintext()
                 .build();
         this.blockingStub = FutaPayServiceGrpc.newBlockingStub(channel);
     }
 
     public ResponseDTO send(RequestDTO requestDTO) {
-
 
         MessageReq request =
                 MessageReq.newBuilder()
@@ -37,20 +39,23 @@ public class GRPCClient {
                         .putAllHeaders(new TreeMap<>())
                         .setUserProfile(requestDTO.getUserProfile())
                         .build();
+
+        MessageRpl response = blockingStub.exec(request);
+        String resp = response.getResponse();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode body = null;
         try {
-            MessageRpl response = blockingStub.exec(request);
-
-            return new ResponseDTO(
-                    response.getRequestId(),
-                    response.getServiceId(),
-                    response.getPartnerId(),
-                    response.getType(),
-                    response.getResponse(),
-                    response.getResultCode(),
-                    response.getResultMessage());
-
-        } catch (StatusRuntimeException e) {
-            return null;
+            body = mapper.readTree(resp);
+        } catch (Exception e) {
+            //
         }
+        return new ResponseDTO(
+                response.getRequestId(),
+                response.getServiceId(),
+                response.getPartnerId(),
+                response.getType(),
+                body,
+                response.getResultCode(),
+                response.getResultMessage());
     }
 }
