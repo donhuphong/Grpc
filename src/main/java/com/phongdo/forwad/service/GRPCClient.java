@@ -17,11 +17,11 @@ import java.util.TreeMap;
 public class GRPCClient {
     private final FutaPayServiceGrpc.FutaPayServiceBlockingStub blockingStub;
     private static final String IP = "127.0.0.1";
-    private static final String port = "8082";
+    private static final String PORT = "8082";
 
     public GRPCClient() {
         ManagedChannel channel = ManagedChannelBuilder
-                .forTarget(IP + ":" + port)
+                .forTarget(IP + ":" + PORT)
                 .usePlaintext()
                 .build();
         this.blockingStub = FutaPayServiceGrpc.newBlockingStub(channel);
