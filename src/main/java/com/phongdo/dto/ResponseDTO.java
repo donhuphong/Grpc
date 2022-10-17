@@ -1,15 +1,17 @@
 package com.phongdo.dto;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class ResponseDTO {
     private String requestId;
     private String serviceId;
     private String partnerId;
     private String type;
-    private String response;
+    private JsonNode response;
     private int resultCode;
     private String resultMessage;
 
-    public ResponseDTO(String requestId, String serviceId, String partnerId, String type, String response, int resultCode, String resultMessage) {
+    public ResponseDTO(String requestId, String serviceId, String partnerId, String type, JsonNode response, int resultCode, String resultMessage) {
         this.requestId = requestId;
         this.serviceId = serviceId;
         this.partnerId = partnerId;
@@ -51,11 +53,11 @@ public class ResponseDTO {
         this.type = type;
     }
 
-    public String getResponse() {
+    public JsonNode getResponse() {
         return response;
     }
 
-    public void setResponse(String response) {
+    public void setResponse(JsonNode response) {
         this.response = response;
     }
 

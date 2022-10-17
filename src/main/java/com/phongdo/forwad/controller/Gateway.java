@@ -4,10 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.phongdo.dto.RequestDTO;
 import com.phongdo.dto.ResponseDTO;
 import com.phongdo.forwad.service.GRPCClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class Gateway {
@@ -24,7 +23,7 @@ public class Gateway {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/gateway")
-    public ResponseDTO createAdminBalance(@RequestBody String request) {
+    public ResponseDTO createAdminBalance(@RequestHeader Map<String, String> headers, @RequestBody String request) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             RequestDTO requestDTO = mapper.readValue(request, RequestDTO.class);

@@ -27,6 +27,11 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <version>3.21.5</version>
+        </dependency>
     </dependencies>
     <build>
         <extensions>
@@ -64,6 +69,7 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <classpathPrefix>lib/</classpathPrefix>
                             <addClasspath>true</addClasspath>
                             <mainClass>com.phongdo.AppSpring</mainClass>
                         </manifest>

@@ -1,5 +1,7 @@
 package com.phongdo.dto;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.Map;
 
 public class RequestDTO {
@@ -7,7 +9,7 @@ public class RequestDTO {
     private String serviceId;
     private String partnerId;
     private String type;
-    private Map<String, Object> request;
+    private JsonNode request;
     private Map<String, Object> headers;
     private String userProfile;
 
@@ -43,11 +45,11 @@ public class RequestDTO {
         this.type = type;
     }
 
-    public Map<String, Object> getRequest() {
+    public JsonNode getRequest() {
         return request;
     }
 
-    public void setRequest(Map<String, Object> request) {
+    public void setRequest(JsonNode request) {
         this.request = request;
     }
 
